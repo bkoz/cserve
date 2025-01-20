@@ -1,19 +1,33 @@
 # Deploy cserve on Openshift
 
 #### Generate a pull token
+```bash
+gcloud auth login
+gcloud auth configure-docker us-central1-docker.pkg.dev
+gcloud auth print-access-token
+```
 
-#### Create an Openshift pull secret
+#### Create an Openshift pull secret using the token from above
 ```bash
 oc create secret generic centmldockerpull --from-file=.dockerconfigjson=./dockerconfig.json --type=kubernetes.io/dockerconfigjson
 ```
 
 #### Run the cserve helm chart
+```bash
+helm install -f cserve/values.yaml --namespace=centml cserve ./cserve
+```
 
-#### Test using `curl`.
+#### Open a web terminal from the Openshift Web UI and test using `curl`.
 
 ```bash
-export CSERVE_HOST=http://cserve:8080
+export CSERVE_HOST=http://cserve.centml:8080
+curl cserve.centml:8080/
+```
 
+```
+{"status":"RUNNING","model":"google/gemma-2b-it","api_type":"chat"}
+```
+```bash
 curl -H 'Content-Type: application/json' $CSERVE_HOST/openai/v1/models | jq
 
 curl -N -X POST  -H 'Content-Type: application/json' $CSERVE_HOST/cserve/v1/generate -d '{"prompt": "What is a large language model? ", "sampling_params": {"n": 1, "temperature": 0, "max_tokens": 1024}, "stream": true}'
@@ -22,6 +36,23 @@ curl -N -X POST  -H 'Content-Type: application/json' $CSERVE_HOST/cserve/v1/gene
 #### Deploy the example chat client on Openshift
 
 ```bash
-oc new-app https://github.com/bkoz/cserve.git
+oc new-app --name=chat https://github.com/bkoz/cserve.git
 ```
+
+Create a route (optional)
+```bash
+oc create route edge chat --service=chat --insecure-policy='Redirect'
+```
+
+![Chat](images/chat.png)
+
+#### Monitoring
+
+##### Deploy Prometheus
+
+##### Deploy Grafana
+
+Add a Grafana dashboard
+
+![Grafana](images/grafana.png)
 
