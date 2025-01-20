@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    serviceMonitorSelector: prometheus
+  name: cserve
+  namespace: centml
+spec:
+  endpoints:
+  - interval: 30s
+    targetPort: 8080
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - centml
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "cserve"
+

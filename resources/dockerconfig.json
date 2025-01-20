@@ -1,0 +1,8 @@
+{
+  "auths": {
+    "us-central1-docker.pkg.dev": {
+      "username": "oauth2accesstoken",
+      "password": "token from gcloud auth print-access-token"
+      }
+   }
+}
