@@ -1,5 +1,13 @@
 # Deploy cserve on Openshift
 
+## Approaches
+
+### 1a. Push the cserve container to your Openshift registry
+
+Use `podman` to pull and push the cserve container.
+
+### 1b. Configure Openshift to pull from CentML's registry
+
 #### Generate a pull token
 ```bash
 gcloud auth login
