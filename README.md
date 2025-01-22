@@ -70,7 +70,7 @@ curl -N -X POST  -H 'Content-Type: application/json' $CSERVE_HOST/cserve/v1/gene
 oc new-app --name=chat https://github.com/bkoz/cserve.git
 ```
 
-Create a route (optional)
+Create a route to visit the chat with a web browser.
 ```bash
 oc create route edge chat --service=chat --insecure-policy='Redirect'
 ```
