@@ -75,7 +75,11 @@ Create a route to visit the chat with a web browser.
 oc create route edge chat --service=chat --insecure-policy='Redirect'
 ```
 
+![Openshift Topology](images/ocp-topo.png)
+Openshift Topology
+
 ![Chat](images/chat.png)
+Example Chat application
 
 #### Monitoring
 
